@@ -27,6 +27,7 @@ function handleBoard () {
     let tile7 = '';
     let tile8 = '';
     let tile9 = '';
+    let activePlayer = 1;
     const getMessage = () => message;
     const get1 = () => tile1;
     const get2 = () => tile2;
@@ -37,6 +38,7 @@ function handleBoard () {
     const get7 = () => tile7;
     const get8 = () => tile8;
     const get9 = () => tile9;
+    const active = () => activePlayer;
     const up1 = (move) => {tile1 = move;}
     const up2 = (move) => {tile2 = move;}
     const up3 = (move) => {tile3 = move;}
@@ -46,6 +48,14 @@ function handleBoard () {
     const up7 = (move) => {tile7 = move;}
     const up8 = (move) => {tile8 = move;}
     const up9 = (move) => {tile9 = move;}
+    const passTurn = () => {
+        if (active() == 1) {
+            activePlayer = 2;
+        }
+        else {
+            activePlayer = 1;
+        }
+    };
     const updateMessage = (newMessage) => {message = newMessage};
     const resetBoard = (move) => {
         updateMessage('');
@@ -58,11 +68,16 @@ function handleBoard () {
         up7('');
         up8('');
         up9('');
+        activePlayer = 1;
     };
-    return {getMessage, updateMessage, get1, get2, get3, get4, get5, get6, get7, get8, get9, up1, up2, up3, up4, up5, up6, up7, up8, up9, resetBoard};
+    return {getMessage, updateMessage, get1, get2, get3, get4, get5, get6, get7, get8, get9, up1, up2, up3, up4, up5, up6, up7, up8, up9, resetBoard, active, passTurn};
 }
 
 const Board = handleBoard();
+
+// console.log(Board.active());
+// Board.passTurn();
+// console.log(Board.active());
 
 // console.log(Board.get1());
 // Board.up1('X');
