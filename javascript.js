@@ -84,8 +84,8 @@ const Board = handleBoard();
 const DisplayController = (function(doc) {
     const lb = doc.querySelector('.lb');
     const rb = doc.querySelector('.rb');
-    const left = doc.querySelector('.left');
-    const right = doc.querySelector('.right');
+    const left = doc.querySelector('.lefttext');
+    const right = doc.querySelector('.righttext');
     const display = doc.querySelector('.display');
     const newgame = doc.querySelector('.newgame');
     const one = doc.querySelector('.one');
@@ -97,7 +97,15 @@ const DisplayController = (function(doc) {
     const seven = doc.querySelector('.seven');
     const eight = doc.querySelector('.eight');
     const nine = doc.querySelector('.nine');
-    const endGame = (player) => {display.textContent = 'Game Over! ' + player + ' wins!'; Board.gameOver();}
+    const endGame = (player) => {
+        if (player != '') {
+            display.textContent = 'Game Over! ' + player + ' wins!'; 
+        }
+        else {
+            display.textContent = "It's a draw!";
+        }
+        Board.gameOver();
+    }
     const refresh = () => {
         one.textContent = Board.get1();
         two.textContent = Board.get2();
@@ -138,6 +146,11 @@ const DisplayController = (function(doc) {
                 endGame(Info.getTwo());
             }
         }
+        else if (one.textContent != '' && two.textContent != '' && three.textContent != '' && four.textContent != '' && five.textContent != '' && six.textContent != '' && seven.textContent != '' && eight.textContent != '' && nine.textContent != '') {
+            endGame('');
+        }
+        left.textContent = Info.getOne() + ': '+ Info.getScoreOne();
+        right.textContent = Info.getTwo() + ': '+ Info.getScoreTwo();
     }
     one.addEventListener('click', () => {
         if (Board.get1() == '' && Board.ifOver() == '') {
@@ -247,6 +260,21 @@ const DisplayController = (function(doc) {
             refresh();
         }
     })
+    newgame.addEventListener('click', () => {
+        Board.resetBoard();
+        refresh();
+        display.textContent = '';
+    })
+    lb.addEventListener('click', () => {
+        let name = prompt('Enter new name', 'Player One');
+        Info.updateOne(name);
+        refresh();
+    });
+    rb.addEventListener('click', () => {
+        let name = prompt('Enter new name', 'Player Two');
+        Info.updateTwo(name);
+        refresh();
+    });
 })(document);
 
 
